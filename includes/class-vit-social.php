@@ -76,9 +76,14 @@ class Vit_Social
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vit-social-helper.php';
 
         /**
-         * The class responsible for defining all actions that occur in the admin area.
+         * The class responsible for defining all actions that occur in the admin posts/pages area.
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-vit-social-admin.php';
+        
+        /**
+         * The class responsible for defining all actions that occur in the admin option page.
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-vit-social-admin-options.php';
 
         /**
          * The class responsible for defining all actions that occur in the public-facing
@@ -98,6 +103,8 @@ class Vit_Social
      */
     private function define_admin_hooks() {
         $pluginAdmin = new Vit_Social_Admin($this->get_plugin_name(), $this->get_version(), $this->helper);
+        $pluginAdminOption = new Vit_Social_Admin_Options($this->get_plugin_name(), $this->helper);
+        
         
         //Add scripts only on post add/edit page
         $this->loader->add_action('load-post.php', $pluginAdmin, 'enqueue_scripts');
@@ -108,8 +115,8 @@ class Vit_Social
         $this->loader->add_action('save_post', $pluginAdmin, 'saveMetaBox');
         
         //Add setting page
-        $this->loader->add_action('admin_menu', $pluginAdmin, 'addAdminMenu');
-        $this->loader->add_action('admin_init', $pluginAdmin, 'settingsApiInit');
+        $this->loader->add_action('admin_menu', $pluginAdminOption, 'addAdminMenu');
+        $this->loader->add_action('admin_init', $pluginAdminOption, 'settingsApiInit');
     }
 
     /**
