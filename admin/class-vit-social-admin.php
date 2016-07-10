@@ -1,30 +1,35 @@
 <?php
 
-class Vit_Social_Admin {
+class Vit_Social_Admin
+{
 
     private $plugin_name;
     private $version;
     private $helper;
 
-    public function __construct($plugin_name, $version, $helper) {
+    public function __construct($plugin_name, $version, $helper)
+    {
         $this->plugin_name = $plugin_name;
         $this->version = $version;
         $this->helper = $helper;
     }
 
-    public function enqueue_scripts() {
+    public function enqueue_scripts()
+    {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts_styles'));
     }
 
     /**
      * Register the stylesheets for the admin area.
      */
-    public function enqueue_scripts_styles() {
+    public function enqueue_scripts_styles()
+    {
         wp_enqueue_style($this->plugin_name . '_jquery_ui', plugin_dir_url(__FILE__) . 'css/jquery-ui.css', array(), $this->version, 'all');
         wp_enqueue_script($this->plugin_name . '_admin_js', plugin_dir_url(__FILE__) . 'js/vit-social-admin.js', array('jquery'), $this->version, false);
     }
 
-    public function add_meta_box($post_type) {
+    public function add_meta_box($post_type)
+    {
         $post_types = array('post', 'page');     //limit meta box to posts and pages
         if (in_array($post_type, $post_types)) {
             add_meta_box(
@@ -33,31 +38,35 @@ class Vit_Social_Admin {
         }
     }
 
-    public function saveMetaBox($post_id) {
+    public function saveMetaBox($post_id)
+    {
         // Check if our nonce is set.
-        if (!isset($_POST['vit_inner_custom_box_nonce']))
+        if (!isset($_POST['vit_inner_custom_box_nonce'])) {
             return $post_id;
+        }
 
         $nonce = $_POST['vit_inner_custom_box_nonce'];
 
         // Verify that the nonce is valid.
-        if (!wp_verify_nonce($nonce, 'vit_inner_custom_box'))
+        if (!wp_verify_nonce($nonce, 'vit_inner_custom_box')) {
             return $post_id;
+        }
 
         // If this is an autosave, our form has not been submitted,
         //     so we don't want to do anything.
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return $post_id;
+        }
 
         // Check the user's permissions.
         if ('page' == $_POST['post_type']) {
-
-            if (!current_user_can('edit_page', $post_id))
+            if (!current_user_can('edit_page', $post_id)) {
                 return $post_id;
+            }
         } else {
-
-            if (!current_user_can('edit_post', $post_id))
+            if (!current_user_can('edit_post', $post_id)) {
                 return $post_id;
+            }
         }
 
         $buttons = $this->helper->getShareButtons();
@@ -75,8 +84,8 @@ class Vit_Social_Admin {
         }
     }
 
-    public function renderMetaBox($post) {
-
+    public function renderMetaBox($post)
+    {
         $sortedButtons = $this->helper->getSortedButtons($post, true);
         ob_start();
         $this->helper->loadView('metaBox', 'admin', compact('sortedButtons'));
@@ -84,5 +93,4 @@ class Vit_Social_Admin {
 
         echo $op;
     }
-
 }
