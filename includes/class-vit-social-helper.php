@@ -53,6 +53,7 @@ class Vit_Social_Helper
     }
 
     public function loadView($view, $module, $variables, $isReturn = false) {
+        
         extract($variables);
         $viewPath = plugin_dir_path(dirname(__FILE__)) . $module . '/views/' . $view . '.php';
         

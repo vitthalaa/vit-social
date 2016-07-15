@@ -89,8 +89,8 @@ class Vit_Social_Admin
         $sortedButtons = $this->helper->getSortedButtons($post, true);
         ob_start();
         $this->helper->loadView('metaBox', 'admin', compact('sortedButtons'));
-        $op = ob_get_clean();
+        $output = ob_get_clean();
 
-        echo $op;
+        echo $output;
     }
 }

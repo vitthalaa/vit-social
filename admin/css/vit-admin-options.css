@@ -1,0 +1,18 @@
+/* 
+    Created on : 16 Jul, 2016, 12:46:25 AM
+    Author     : vitthal
+*/
+
+ul.social-icons {
+    width: 100%;
+    padding: 10px;
+    padding-bottom: 20px;
+}
+
+.social-icons a.vit-social-btn {
+    text-decoration: none;
+}
+
+.vit-social-options-form label {
+     padding-right: 15px;
+}

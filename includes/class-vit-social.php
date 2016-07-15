@@ -105,10 +105,10 @@ class Vit_Social
         $pluginAdmin = new Vit_Social_Admin($this->get_plugin_name(), $this->get_version(), $this->helper);
         $pluginAdminOption = new Vit_Social_Admin_Options($this->get_plugin_name(), $this->helper);
         
-        
         //Add scripts only on post add/edit page
         $this->loader->add_action('load-post.php', $pluginAdmin, 'enqueue_scripts');
         $this->loader->add_action('load-post-new.php', $pluginAdmin, 'enqueue_scripts');
+        $this->loader->add_action('admin_enqueue_scripts', $pluginAdminOption, 'enqueue_scripts');
         
         //Add meta boxes and save its content on save post
         $this->loader->add_action('add_meta_boxes', $pluginAdmin, 'add_meta_box');
@@ -117,6 +117,7 @@ class Vit_Social
         //Add setting page
         $this->loader->add_action('admin_menu', $pluginAdminOption, 'addAdminMenu');
         $this->loader->add_action('admin_init', $pluginAdminOption, 'settingsApiInit');
+        
     }
 
     /**
