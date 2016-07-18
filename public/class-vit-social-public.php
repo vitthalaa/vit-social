@@ -16,9 +16,12 @@ class Vit_Social_Public
     }
     
     public function enqueueScripts() {
+        wp_register_style("vit_social_css", plugin_dir_url(__FILE__) . 'assets/css/vit-social.php');
+        wp_enqueue_style('vit_social_css');
+        
         wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'assets/js/vit-social.js', array('jquery'), $this->version, false);
         wp_enqueue_style($this->plugin_name . '_font_awesome', plugin_dir_url(__FILE__) . 'assets/font-awesome/font-awesome.min.css', array(), '4.4.0', 'all');
-        wp_enqueue_style($this->plugin_name . '_style', plugin_dir_url(__FILE__) . 'assets/css/vit-social.css', array(), $this->version, 'all');
+        //wp_enqueue_style($this->plugin_name . '_style', plugin_dir_url(__FILE__) . 'assets/css/vit-social.css', array(), $this->version, 'all');
     }
     
     public function enqueueStyle() {

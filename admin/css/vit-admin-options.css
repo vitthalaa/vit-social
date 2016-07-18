@@ -1,18 +1,20 @@
-/* 
-    Created on : 16 Jul, 2016, 12:46:25 AM
-    Author     : vitthal
-*/
-
+.vit-options-container {
+    margin: 5px 15px 2px;
+    padding: 1px 12px;
+}
 ul.social-icons {
-    width: 100%;
     padding: 10px;
     padding-bottom: 20px;
 }
-
 .social-icons a.vit-social-btn {
     text-decoration: none;
 }
-
+.vit-social-options-form {
+    float: left;
+}
 .vit-social-options-form label {
-     padding-right: 15px;
+    padding-right: 15px;
+}
+.vit-clear {
+    clear: both; float: left; display: block; position: relative;
 }
