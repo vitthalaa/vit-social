@@ -19,6 +19,7 @@ class Vit_Social_Admin_Options {
                 $this->addSettingField('vit_button_rotate', 'Hover rotate', 'buttonRotateField', $page, $settingsSection);
                 $this->addSettingField('vit_button_width', 'Size', 'buttonWidthField', $page, $settingsSection);
                 $this->addSettingField('vit_button_font_size', 'Font size', 'buttonFontSizeField', $page, $settingsSection);
+                $this->addSettingField('vit_show_on', 'Show on', 'buttonShowOnField', $page, $settingsSection);
                 break;
             
             default :
@@ -65,9 +66,9 @@ class Vit_Social_Admin_Options {
 
     function initSettingPage() {
         $title = "VIT Social";
-        $buttonShape = get_option("vit_button_shape");
-        $buttonZoom = get_option("vit_button_zoom");
-        $buttonRotate = get_option("vit_button_rotate");
+        $buttonShape = get_option("vit_button_shape", 'flat');
+        $buttonZoom = get_option("vit_button_zoom", 'y');
+        $buttonRotate = get_option("vit_button_rotate", 'y');
         $this->helper->loadView('optionsForm', 'admin', compact('title', 'buttonShape', 'buttonZoom', 'buttonRotate'));
     }
 
@@ -123,6 +124,15 @@ class Vit_Social_Admin_Options {
         echo '<input type="number" name="vit_button_font_size" class="vit_button_font_size" value="' . $fontSize . '">';
     }
     
+    function buttonShowOnField() {
+        $showOn = get_option('vit_show_on', 'both');
+        echo '<select name="vit_show_on" class="vit_show_on">';
+        echo '<option ', ("both" == $showOn) ? 'selected="selected"' : '', ' value="both">' . __("Both", "vit_social") . '</option>';
+        echo '<option ', ("page" == $showOn) ? 'selected="selected"' : '', ' value="page">' . __("Page", "vit_social") . '</option>';
+        echo '<option ', ("post" == $showOn) ? 'selected="selected"' : '', ' value="post">' . __("Post", "vit_social") . '</option>';
+        echo '</select>';
+    }
+            
     function instagramLinkField() {
         $link = get_option('vit_instagram_link', '#');
         echo '<input type="text" name="vit_instagram_link" class="vit_instagram_link" value="' . $link . '">';

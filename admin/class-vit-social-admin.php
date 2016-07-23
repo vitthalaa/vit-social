@@ -28,12 +28,11 @@ class Vit_Social_Admin
         wp_enqueue_script($this->plugin_name . '_admin_js', plugin_dir_url(__FILE__) . 'js/vit-social-admin.js', array('jquery'), $this->version, false);
     }
 
-    public function add_meta_box($post_type)
+    public function add_meta_box($postType)
     {
-        $post_types = array('post', 'page');     //limit meta box to posts and pages
-        if (in_array($post_type, $post_types)) {
+        if ($this->helper->doShow($postType)) {
             add_meta_box(
-                    'social_button_settings', __('Social Button Settings'), array($this, 'renderMetaBox'), $post_type, 'side', 'high'
+                    'social_button_settings', __('Social Button Settings'), array($this, 'renderMetaBox'), $postType, 'side', 'high'
             );
         }
     }

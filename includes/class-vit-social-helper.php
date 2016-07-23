@@ -134,4 +134,11 @@ class Vit_Social_Helper
     public function getEmailBody($title, $link) {
         return 'I recommend this page : ' . $title . '. You can read it on : ' . $link;
     }
+
+    public function doShow($postType = null) {
+        $postType = empty($postType) ?: get_post_type();
+        $showOn = get_option("vit_show_on", "both");
+
+        return ($postType == $showOn || "both" == $showOn);
+    }
 }
