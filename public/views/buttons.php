@@ -1,4 +1,13 @@
-<ul class="social-icons icon-flat icon-zoom icon-rotate"> 
+<?php
+$buttonShape = get_option("vit_button_shape", 'flat');
+$buttonZoom = get_option("vit_button_zoom", 'y');
+$buttonRotate = get_option("vit_button_rotate", 'y');
+?>
+<ul class="social-icons <?php
+echo "icon-" . $buttonShape;
+echo ("y" == $buttonZoom) ? ' icon-zoom ' : '';
+echo ("y" == $buttonRotate) ? ' icon-rotate ' : '';
+?>">
 <?php
 foreach ($sortedButtons as $button) :
     echo '<li>';
@@ -7,7 +16,6 @@ foreach ($sortedButtons as $button) :
         case 'Twitter': ?>
                 <a onclick="return sharePopup(this)" class="vit-social-btn" href="javascript:" data-media="<?php echo $button['slug'] ?>"
                     data-url="http://twitter.com/share?text=<?php echo urlencode($shareTitle) ?>&amp;url=<?php echo $sharePermalink ?>">
-                        <?php //echo $image ?>
                     <i class="fa fa-twitter"></i>
                 </a>
                 <?php
@@ -17,7 +25,6 @@ foreach ($sortedButtons as $button) :
             ?>
                 <a onclick="return sharePopup(this)" class="vit-social-btn" href="javascript:" data-media="<?php echo $button['slug'] ?>"
                     data-url="https://www.facebook.com/sharer/sharer.php?u=<?php echo $sharePermalink ?>">
-                    <?php //echo $image ?>
                     <i class="fa fa-facebook"></i>
                 </a>
             <?php
@@ -27,8 +34,7 @@ foreach ($sortedButtons as $button) :
             ?>
                 <a onclick="return sharePopup(this)" class="vit-social-btn" href="javascript:" data-media="<?php echo $button['slug'] ?>"
                     data-url="https://plus.google.com/share?url=<?php echo $sharePermalink ?>">
-                        <?php //echo $image ?>
-                        <i class="fa fa-google-plus"></i>
+                    <i class="fa fa-google-plus"></i>
                 </a>
             <?php        
             break;
@@ -36,7 +42,6 @@ foreach ($sortedButtons as $button) :
         case 'Email':
             ?>
                 <a class="vit-social-btn" href="mailto:?subject=<?php echo urlencode($emailSubject) ?>&amp;body=<?php echo urlencode($emailBody) ?>" title="<?php echo $shareTitle ?>">
-                    <?php //echo $image ?>
                     <i class="fa fa-envelope-o"></i>
                 </a>
             <?php    
@@ -44,8 +49,7 @@ foreach ($sortedButtons as $button) :
 
         case 'Whatsapp':
             ?>
-                <a class="vit-social-btn" href="whatsapp://send?text=<?php echo urlencode($emailBody) ?>" data-action="share/whatsapp/share" title="<?php echo $shareTitle ?>">
-                    <?php //echo $image ?>
+                <a class="vit-social-btn" href="whatsapp://send?text=<?php echo urlencode($whatsAppText) ?>" data-action="share/whatsapp/share" title="<?php echo $shareTitle ?>">
                     <i class="fa fa-whatsapp"></i>
                 </a>
             <?php
@@ -53,8 +57,7 @@ foreach ($sortedButtons as $button) :
             
         case 'Instagram':
             ?>
-                <a onclick="return sharePopup(this)" class="vit-social-btn" target="_blank" href="<?php echo get_option('instagram_link', 'https://instagram.com') ?>" title="<?php $shareTitle ?>">
-                    <?php //echo $image ?>
+                <a class="vit-social-btn" target="_blank" href="<?php echo get_option('vit_instagram_link', 'https://instagram.com') ?>" title="<?php $shareTitle ?>">
                     <i class="fa fa-instagram"></i>
                 </a>
             <?php
@@ -64,8 +67,7 @@ foreach ($sortedButtons as $button) :
             ?>
                 <a onclick="return sharePopup(this)" class="vit-social-btn" href="javascript:" data-media="<?php echo $button['slug'] ?>"
                     data-url="http://www.linkedin.com/shareArticle?mini=true&amp;url=<?php echo $sharePermalink ?>&amp;title=<?php echo $shareTitle ?>">
-                    <?php echo $image ?>
-                    
+                    <i class="fa fa-linkedin"></i>
                 </a>
             <?php        
             break;

@@ -42,19 +42,19 @@ class Vit_Social_Public
      * @return string
      */
     public function getHtml() {
-
         global $post;
 
         $sharePermalink = get_permalink($post->ID);
         $shareTitle = $this->helper->getShareTitle();
         $emailSubject = $this->helper->getEmailSubject($shareTitle);
         $emailBody = $this->helper->getEmailBody($shareTitle, $sharePermalink);
+        $whatsAppText = $this->helper->getWhatsAppText($shareTitle, $sharePermalink);
         $sortedButtons = $this->helper->getSortedButtons($post);
-
         $socialLinks = '';
+
         if (!empty($sortedButtons)) {
             //Create html of links
-            $variables = compact('sortedButtons', 'sharePermalink', 'shareTitle', 'emailSubject', 'emailBody');
+            $variables = compact('sortedButtons', 'sharePermalink', 'shareTitle', 'emailSubject', 'emailBody', 'whatsAppText');
             $socialLinks = $this->helper->loadView('buttons', 'public', $variables, true);
         }
 

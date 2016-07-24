@@ -134,7 +134,7 @@ class Vit_Social_Admin_Options {
     }
             
     function instagramLinkField() {
-        $link = get_option('vit_instagram_link', '#');
+        $link = get_option('vit_instagram_link', 'https://instagram.com');
         echo '<input type="text" name="vit_instagram_link" class="vit_instagram_link" value="' . $link . '">';
     }
     
@@ -149,7 +149,7 @@ class Vit_Social_Admin_Options {
     }
     
     function whatsappTextField() {
-        $body = get_option('vit_email_body', 'I recommend this page:{post_title}. You can read it on {url}.');
+        $body = get_option('vit_whatsapp_text', 'I recommend this page:{post_title}. You can read it on {url}.');
         echo '<textarea rows="3" name="vit_whatsapp_text" class="vit_whatsapp_text">'. $body . '</textarea>';
     }
 

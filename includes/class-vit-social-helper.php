@@ -128,11 +128,21 @@ class Vit_Social_Helper
     }
     
     public function getEmailSubject($title) {
-        return htmlspecialchars(get_bloginfo('name')) . ' : ' . $title;
+        $subject = str_replace("{site_title}", htmlspecialchars(get_bloginfo('name')), get_option('vit_email_subject', '{site_title}:{post_title}'));
+
+        return str_replace("{post_title}", $title, $subject);
     }
     
     public function getEmailBody($title, $link) {
-        return 'I recommend this page : ' . $title . '. You can read it on : ' . $link;
+        $body = str_replace("{post_title}", $title, get_option('vit_email_body', 'I recommend this page:{post_title}. You can read it on {url}.'));
+
+        return str_replace("{url}", $link, $body);
+    }
+
+    public function getWhatsAppText($title, $link) {
+        $body = str_replace("{post_title}", $title, get_option('vit_whatsapp_text', 'I recommend this page:{post_title}. You can read it on {url}.'));
+
+        return str_replace("{url}", $link, $body);
     }
 
     public function doShow($postType = null) {
