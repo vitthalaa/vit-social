@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Plugin name: VIT Social
  * Description: Post wise social share buttons
@@ -8,8 +9,8 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
+if (!defined('WPINC')) {
+    die;
 }
 
 
@@ -17,8 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-vit-social.php';
-
+require plugin_dir_path(__FILE__) . 'includes/class-vit-social.php';
 
 /**
  * Begins execution of the plugin.
@@ -27,7 +27,8 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-vit-social.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  */
-function run_vit_social() {
+function run_vit_social()
+{
     $plugin = new Vit_Social();
     $plugin->run();
 }
