@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 class Vit_Social_Helper
 {
 
@@ -15,7 +9,8 @@ class Vit_Social_Helper
      * @param boolean $isadmin
      * @return string
      */
-    public function getSortedButtons($post, $isadmin = false) {
+    public function getSortedButtons($post, $isadmin = false)
+    {
         $buttons = $this->getShareButtons();
         $sortedButtons = array();
         //Create array of buttons which allowed to show and kept order as key for sorting
@@ -52,8 +47,8 @@ class Vit_Social_Helper
         return $sortedButtons;
     }
 
-    public function loadView($view, $module, $variables, $isReturn = false) {
-        
+    public function loadView($view, $module, $variables, $isReturn = false)
+    {
         extract($variables);
         $viewPath = plugin_dir_path(dirname(__FILE__)) . $module . '/views/' . $view . '.php';
         
@@ -76,7 +71,8 @@ class Vit_Social_Helper
      * Return array of all buttons
      * @return array
      */
-    public function getShareButtons() {
+    public function getShareButtons()
+    {
         return array(
             'twitter' => array(
                 'name' => 'Twitter',
@@ -123,32 +119,44 @@ class Vit_Social_Helper
         );
     }
     
-    public function getShareTitle() {
+    public function getShareTitle()
+    {
         return get_the_title();
     }
     
-    public function getEmailSubject($title) {
+    public function getEmailSubject($title)
+    {
         $subject = str_replace("{site_title}", htmlspecialchars(get_bloginfo('name')), get_option('vit_email_subject', '{site_title}:{post_title}'));
 
         return str_replace("{post_title}", $title, $subject);
     }
     
-    public function getEmailBody($title, $link) {
+    public function getEmailBody($title, $link)
+    {
         $body = str_replace("{post_title}", $title, get_option('vit_email_body', 'I recommend this page:{post_title}. You can read it on {url}.'));
 
         return str_replace("{url}", $link, $body);
     }
 
-    public function getWhatsAppText($title, $link) {
+    public function getWhatsAppText($title, $link)
+    {
         $body = str_replace("{post_title}", $title, get_option('vit_whatsapp_text', 'I recommend this page:{post_title}. You can read it on {url}.'));
 
         return str_replace("{url}", $link, $body);
     }
 
-    public function doShow($postType = null) {
+    public function doShow($postType = null)
+    {
         $postType = empty($postType) ?: get_post_type();
         $showOn = get_option("vit_show_on", "both");
 
         return ($postType == $showOn || "both" == $showOn);
+    }
+
+    public function assets($path = "")
+    {
+        global $pluginDirecotyUrl;
+
+        return $pluginDirecotyUrl . "resources/assets/" . $path;
     }
 }

@@ -24,10 +24,8 @@ class Vit_Social_Admin
      */
     public function enqueue_scripts_styles()
     {
-        //
-        //wp_enqueue_style($this->plugin_name . '_jquery_ui', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.css', array(), false, 'all');
-        wp_enqueue_style($this->plugin_name . '_jquery_ui', plugin_dir_url(__FILE__) . 'css/jquery-ui.css', array(), $this->version, 'all');
-        wp_enqueue_script($this->plugin_name . '_admin_js', plugin_dir_url(__FILE__) . 'js/vit-social-admin.js', array('jquery'), $this->version, false);
+        wp_enqueue_style($this->plugin_name . '_jquery_ui', $this->helper->assets('vendor/jquery-ui/jquery-ui.css'), array(), $this->version, 'all');
+        wp_enqueue_script($this->plugin_name . '_admin_js', $this->helper->assets('js/vit-social-admin.js'), array('jquery'), $this->version, false);
     }
 
     public function add_meta_box($postType)

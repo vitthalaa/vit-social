@@ -13,6 +13,8 @@ if (!defined('WPINC')) {
     die;
 }
 
+$GLOBALS['pluginDirecotyPath'] = plugin_dir_path(__FILE__);
+$GLOBALS['pluginDirecotyUrl'] = plugin_dir_url(__FILE__);
 
 /**
  * The core plugin class that is used to define internationalization,

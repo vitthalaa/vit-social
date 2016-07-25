@@ -20,11 +20,11 @@ class Vit_Social_Public
             return;
         }
 
-        wp_register_style("vit_social_css", plugin_dir_url(__FILE__) . 'assets/css/vit-social.php');
+        wp_register_style("vit_social_css", $this->helper->assets('css/vit-social.php'));
         wp_enqueue_style('vit_social_css');
 
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'assets/js/vit-social.js', array('jquery'), $this->version, false);
-        wp_enqueue_style($this->plugin_name . '_font_awesome', plugin_dir_url(__FILE__) . 'assets/font-awesome/font-awesome.min.css', array(), '4.4.0', 'all');
+        wp_enqueue_script($this->plugin_name, $this->helper->assets('js/vit-social.js'), array('jquery'), $this->version, false);
+        wp_enqueue_style($this->plugin_name . '_font_awesome', $this->helper->assets('vendor/font-awesome/font-awesome.min.css'), array(), '4.4.0', 'all');
     }
 
     public function addIcons($content)
@@ -61,5 +61,4 @@ class Vit_Social_Public
 
         return $socialLinks;
     }
-
 }

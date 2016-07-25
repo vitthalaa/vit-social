@@ -11,7 +11,7 @@ echo ("y" == $buttonRotate) ? ' icon-rotate ' : '';
 <?php
 foreach ($sortedButtons as $button) :
     echo '<li>';
-    $image = '<img title="' . $button['name'] . '" src="' . plugins_url('assets/images/' . $button['image'], __DIR__) . '" alt="' . $button['name'] . '" />';
+    $image = '<img title="' . $button['name'] . '" src="' . plugins_url('resources/assets/images/' . $button['image'], __DIR__) . '" alt="' . $button['name'] . '" />';
     switch ($button['name']) :
         case 'Twitter': ?>
                 <a onclick="return sharePopup(this)" class="vit-social-btn" href="javascript:" data-media="<?php echo $button['slug'] ?>"
@@ -36,7 +36,7 @@ foreach ($sortedButtons as $button) :
                     data-url="https://plus.google.com/share?url=<?php echo $sharePermalink ?>">
                     <i class="fa fa-google-plus"></i>
                 </a>
-            <?php        
+            <?php 
             break;
 
         case 'Email':
@@ -44,7 +44,7 @@ foreach ($sortedButtons as $button) :
                 <a class="vit-social-btn" href="mailto:?subject=<?php echo urlencode($emailSubject) ?>&amp;body=<?php echo urlencode($emailBody) ?>" title="<?php echo $shareTitle ?>">
                     <i class="fa fa-envelope-o"></i>
                 </a>
-            <?php    
+            <?php 
             break;
 
         case 'Whatsapp':
@@ -69,7 +69,7 @@ foreach ($sortedButtons as $button) :
                     data-url="http://www.linkedin.com/shareArticle?mini=true&amp;url=<?php echo $sharePermalink ?>&amp;title=<?php echo $shareTitle ?>">
                     <i class="fa fa-linkedin"></i>
                 </a>
-            <?php        
+            <?php 
             break;
     
     endswitch;

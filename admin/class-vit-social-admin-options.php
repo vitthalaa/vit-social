@@ -1,18 +1,20 @@
 <?php
 
-class Vit_Social_Admin_Options {
+class Vit_Social_Admin_Options
+{
 
     private $plugin_name;
     private $helper;
 
-    function __construct($plugin_name, $helper) {
+    public function __construct($plugin_name, $helper)
+    {
         $this->plugin_name = $plugin_name;
         $this->helper = $helper;
     }
 
-    private function addSectionSettings($page, $settingsSection) {
-        switch ($settingsSection) 
-        {
+    private function addSectionSettings($page, $settingsSection)
+    {
+        switch ($settingsSection) {
             case 'vit_skins':
                 $this->addSettingField('vit_button_shape', 'Shape', 'buttonShapeField', $page, $settingsSection);
                 $this->addSettingField('vit_button_zoom', 'Hover zoom', 'buttonZoomField', $page, $settingsSection);
@@ -31,7 +33,8 @@ class Vit_Social_Admin_Options {
         }
     }
 
-    private function addSettingField($fieldName, $label, $funtion, $page, $settingsSection) {
+    private function addSettingField($fieldName, $label, $funtion, $page, $settingsSection)
+    {
         //register setting field
         register_setting($page, $fieldName);
 
@@ -41,7 +44,8 @@ class Vit_Social_Admin_Options {
         );
     }
 
-    public function enqueue_scripts() {
+    public function enqueue_scripts()
+    {
         global $pageHook;
         add_action('admin_print_styles-' . $pageHook, array($this, 'enqueue_scripts_styles'));
     }
@@ -51,20 +55,21 @@ class Vit_Social_Admin_Options {
      */
     public function enqueue_scripts_styles($hook)
     {
-        wp_register_style("vit_social_css", plugin_dir_url(__FILE__) . '../public/assets/css/vit-social.php');
+        wp_register_style("vit_social_css", $this->helper->assets('css/vit-social.php'));
         wp_enqueue_style('vit_social_css');
-        wp_enqueue_style($this->plugin_name . '_jquery_ui', plugin_dir_url(__FILE__) . '../public/assets/css/vit-social.css', array(), false, 'all');
-        wp_enqueue_style($this->plugin_name . '_font_awesome', plugin_dir_url(__FILE__) . '../public/assets/font-awesome/font-awesome.min.css', array(), '4.4.0', 'all');
-        wp_enqueue_style($this->plugin_name . '_admin_options_css', plugin_dir_url(__FILE__) . 'css/vit-admin-options.css', array(), false, 'all');
-        wp_enqueue_script($this->plugin_name . '_admin_options_js', plugin_dir_url(__FILE__) . 'js/vit-admin-options.js', array('jquery'));
+        wp_enqueue_style($this->plugin_name . '_font_awesome', $this->helper->assets('vendor/font-awesome/font-awesome.min.css'), array(), '4.4.0', 'all');
+        wp_enqueue_style($this->plugin_name . '_admin_options_css',  $this->helper->assets('css/vit-admin-options.css'), array(), false, 'all');
+        wp_enqueue_script($this->plugin_name . '_admin_options_js', $this->helper->assets('js/vit-admin-options.js'), array('jquery'));
     }
 
-    function addAdminMenu() {
+    public function addAdminMenu()
+    {
         global $pageHook;
         $pageHook = add_options_page('VIT Social', 'VIT Social', 'manage_options', 'vit-social', array($this, 'initSettingPage'));
     }
 
-    function initSettingPage() {
+    public function initSettingPage()
+    {
         $title = "VIT Social";
         $buttonShape = get_option("vit_button_shape", 'flat');
         $buttonZoom = get_option("vit_button_zoom", 'y');
@@ -72,7 +77,8 @@ class Vit_Social_Admin_Options {
         $this->helper->loadView('optionsForm', 'admin', compact('title', 'buttonShape', 'buttonZoom', 'buttonRotate'));
     }
 
-    function settingsApiInit() {
+    public function settingsApiInit()
+    {
         $page = 'vit_social';
         $settingsSection = 'vit_skins';
         add_settings_section(
@@ -87,44 +93,52 @@ class Vit_Social_Admin_Options {
         $this->addSectionSettings($page, $settingsSection);
     }
 
-    function skinSectionDescription() {
+    public function skinSectionDescription()
+    {
         //_e('Select your display preferences', 'vit_social');
     }
     
-    function contentSectionDescription () {
+    public function contentSectionDescription()
+    {
         //_e('Content for sharing', 'vit_social');
     }
     
-    function buttonShapeField() {
+    public function buttonShapeField()
+    {
         $buttonShape = get_option('vit_button_shape', 'flat');
         echo '<label><input name="vit_button_shape" class="vit_button_shape" type="radio" value="flat" ' . checked('flat', $buttonShape, false) . ' /> ' . __('Flat', 'vit_social') . '</label>';
         echo '<label><input name="vit_button_shape" class="vit_button_shape" type="radio" value="rounded" ' . checked('rounded', $buttonShape, false) . ' /> ' . __('Rounded', 'vit_social') . '</label>';
         echo '<label><input name="vit_button_shape" class="vit_button_shape" type="radio" value="circle" ' . checked('circle', $buttonShape, false) . ' /> ' . __('Circle', 'vit_social') . '</label>';
     }
 
-    function buttonZoomField() {
+    public function buttonZoomField()
+    {
         $buttonZoom = get_option('vit_button_zoom', 'y');
         echo '<label><input name="vit_button_zoom" class="vit_button_zoom" type="radio" value="y" ' . checked('y', $buttonZoom, false) . ' /> ' . __('Yes', 'vit_social') . '</label>';
         echo '<label><input name="vit_button_zoom" class="vit_button_zoom" type="radio" value="n" ' . checked('n', $buttonZoom, false) . ' /> ' . __('No', 'vit_social') . '</label>';
     }
 
-    function buttonRotateField() {
+    public function buttonRotateField()
+    {
         $buttonRotate = get_option('vit_button_rotate', 'y');
         echo '<label><input name="vit_button_rotate" class="vit_button_rotate" type="radio" value="y" ' . checked('y', $buttonRotate, false) . ' /> ' . __('Yes', 'vit_social') . '</label>';
         echo '<label><input name="vit_button_rotate" class="vit_button_rotate" type="radio" value="n" ' . checked('n', $buttonRotate, false) . ' /> ' . __('No', 'vit_social') . '</label>';
     }
 
-    function buttonWidthField() {
+    public function buttonWidthField()
+    {
         $buttonWidth = get_option('vit_button_width', 50);
         echo '<input type="number" size="50" name="vit_button_width" class="vit_button_width" value="' . $buttonWidth . '">';
     }
 
-    function buttonFontSizeField() {
+    public function buttonFontSizeField()
+    {
         $fontSize = get_option('vit_button_font_size', 24);
         echo '<input type="number" name="vit_button_font_size" class="vit_button_font_size" value="' . $fontSize . '">';
     }
     
-    function buttonShowOnField() {
+    public function buttonShowOnField()
+    {
         $showOn = get_option('vit_show_on', 'both');
         echo '<select name="vit_show_on" class="vit_show_on">';
         echo '<option ', ("both" == $showOn) ? 'selected="selected"' : '', ' value="both">' . __("Both", "vit_social") . '</option>';
@@ -133,24 +147,27 @@ class Vit_Social_Admin_Options {
         echo '</select>';
     }
             
-    function instagramLinkField() {
+    public function instagramLinkField()
+    {
         $link = get_option('vit_instagram_link', 'https://instagram.com');
         echo '<input type="text" name="vit_instagram_link" class="vit_instagram_link" value="' . $link . '">';
     }
     
-    function emailSubjectField() {
+    public function emailSubjectField()
+    {
         $subject = get_option('vit_email_subject', '{site_title}:{post_title}');
         echo '<input type="text" name="vit_email_subject" class="vit_email_subject" value="' . $subject . '">';
     }
     
-    function emailBodyField() {
+    public function emailBodyField()
+    {
         $body = get_option('vit_email_body', 'I recommend this page:{post_title}. You can read it on {url}.');
         echo '<textarea rows="3" name="vit_email_body" class="vit_email_body">'. $body . '</textarea>';
     }
     
-    function whatsappTextField() {
+    public function whatsappTextField()
+    {
         $body = get_option('vit_whatsapp_text', 'I recommend this page:{post_title}. You can read it on {url}.');
         echo '<textarea rows="3" name="vit_whatsapp_text" class="vit_whatsapp_text">'. $body . '</textarea>';
     }
-
 }
