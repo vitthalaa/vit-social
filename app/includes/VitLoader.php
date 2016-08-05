@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Includes;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,7 +11,7 @@ namespace App\Includes;
  *
  * @author vitthalawate
  */
-class Loader
+class VitLoader
 {
 
     /**

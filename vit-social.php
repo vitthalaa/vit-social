@@ -13,14 +13,14 @@ if (!defined('WPINC')) {
     die;
 }
 
-$GLOBALS['pluginDirecotyPath'] = plugin_dir_path(__FILE__);
-$GLOBALS['pluginDirecotyUrl'] = plugin_dir_url(__FILE__);
+$GLOBALS['vitPluginDirectoryPath'] = plugin_dir_path(__FILE__);
+$GLOBALS['pluginDirectoryUrl'] = plugin_dir_url(__FILE__);
 
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path(__FILE__) . 'includes/class-vit-social.php';
+require plugin_dir_path(__FILE__) . 'app/VitSocial.php';
 
 /**
  * Begins execution of the plugin.
@@ -29,10 +29,10 @@ require plugin_dir_path(__FILE__) . 'includes/class-vit-social.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  */
-function run_vit_social()
+function runVitSocial()
 {
-    $plugin = new Vit_Social();
+    $plugin = new VitSocial();
     $plugin->run();
 }
 
-run_vit_social();
+runVitSocial();

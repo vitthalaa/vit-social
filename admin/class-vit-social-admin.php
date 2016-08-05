@@ -28,8 +28,9 @@ class Vit_Social_Admin
         wp_enqueue_script($this->plugin_name . '_admin_js', $this->helper->assets('js/vit-social-admin.js'), array('jquery'), $this->version, false);
     }
 
-    public function add_meta_box($postType)
+    public function add_meta_box($postType = null)
     {
+        $postType = (null == $postType) ? get_post_type() : $postType;
         if ($this->helper->doShow($postType)) {
             add_meta_box(
                     'social_button_settings', __('Social Button Settings'), array($this, 'renderMetaBox'), $postType, 'side', 'high'
@@ -37,8 +38,9 @@ class Vit_Social_Admin
         }
     }
 
-    public function saveMetaBox($post_id)
+    public function saveMetaBox($post_id = null)
     {
+        $post_id = (null == $post_id) ? get_the_ID() : $post_id;
         // Check if our nonce is set.
         if (!isset($_POST['vit_inner_custom_box_nonce'])) {
             return $post_id;
@@ -76,7 +78,7 @@ class Vit_Social_Admin
 
             $showValue = (isset($_POST[$showField])) ? 1 : 0;
             $orderValue = sanitize_text_field($_POST[$orderField]);
-
+            
             // Update the meta field.
             update_post_meta($post_id, $showField, $showValue);
             update_post_meta($post_id, $orderField, $orderValue);

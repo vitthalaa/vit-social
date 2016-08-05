@@ -1,7 +1,5 @@
 <?php
 
-namespace App;
-
 /**
  * Description of Loader
  *
@@ -102,28 +100,28 @@ class VitSocial
          * The class responsible for orchestrating the actions and filters of the
          * core plugin.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vit-social-loader.php';
+        require_once plugin_dir_path(__FILE__) . 'includes/VitLoader.php';
         
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-vit-social-helper.php';
+        require_once plugin_dir_path(__FILE__) . 'includes/VitHelper.php';
 
         /**
          * The class responsible for defining all actions that occur in the admin posts/pages area.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-vit-social-admin.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . '/admin/class-vit-social-admin.php';
         
         /**
          * The class responsible for defining all actions that occur in the admin option page.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-vit-social-admin-options.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . '/admin/class-vit-social-admin-options.php';
 
         /**
          * The class responsible for defining all actions that occur in the public-facing
          * side of the site.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-vit-social-public.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . '/public/class-vit-social-public.php';
 
-        $this->loader = new Vit_Social_Loader();
-        $this->helper = new Vit_Social_Helper();
+        $this->loader = new VitLoader();
+        $this->helper = new VitHelper();
     }
 
     /**
@@ -160,7 +158,9 @@ class VitSocial
     private function definePublicHooks() {
         $pluginPublic = new Vit_Social_Public($this->getPluginName(), $this->getVersion(), $this->helper);
         $this->loader->addAction('wp_enqueue_scripts', $pluginPublic, 'enqueueScripts');
-        $this->loader->addFilter('the_content', $pluginPublic, 'addIcons');
+        $this->loader->addFilter('the_content', $pluginPublic, 'addIcons'); // some themes may use the_content
+        //echo "<br>after the_content","<br>";
+        //$this->loader->addFilter('get_the_content', $pluginPublic, 'addIcons'); // some themes may use get_the_content
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-class Vit_Social_Helper
+class VitHelper
 {
 
     /**
@@ -11,7 +11,11 @@ class Vit_Social_Helper
      */
     public function getSortedButtons($post, $isadmin = false)
     {
+        
+        //var_dump($post); exit;
         $buttons = $this->getShareButtons();
+        //echo "<pre>"; 
+        //print_r($buttons);
         $sortedButtons = array();
         //Create array of buttons which allowed to show and kept order as key for sorting
         foreach ($buttons as $buttonId => $button) {
@@ -19,11 +23,20 @@ class Vit_Social_Helper
             $orderField = "vit_order_" . $buttonId;
 
             $showValue = get_post_meta($post->ID, $showField, true);
+            
+            
+            if ("" === $showValue || null === $showValue) {
+                $showValue = 1;
+            }
 
             if (!$isadmin && $showValue == 0) {
                 continue;
             }
+           
             $orderValue = get_post_meta($post->ID, $orderField, true);
+            if ("" === $orderValue || null === $orderValue) {
+                $orderValue = $button['default_order'];
+            }
 
             if (!$isadmin) {
                 $sortedButtons[$orderValue] = $button;
@@ -40,7 +53,8 @@ class Vit_Social_Helper
                 $sortedButtons[$orderValue] = $html;
             }
         }
-
+        
+        //print_r($sortedButtons);
 
         ksort($sortedButtons, SORT_NUMERIC); //Sort array
 
@@ -49,8 +63,10 @@ class Vit_Social_Helper
 
     public function loadView($view, $module, $variables, $isReturn = false)
     {
+        global $vitPluginDirectoryPath;
+        
         extract($variables);
-        $viewPath = plugin_dir_path(dirname(__FILE__)) . $module . '/views/' . $view . '.php';
+        $viewPath = $vitPluginDirectoryPath . 'resources/views/' . $module . '/' . $view . '.php';
         
         if ($isReturn) {
             ob_start();
@@ -155,8 +171,8 @@ class Vit_Social_Helper
 
     public function assets($path = "")
     {
-        global $pluginDirecotyUrl;
+        global $pluginDirectoryUrl;
 
-        return $pluginDirecotyUrl . "resources/assets/" . $path;
+        return $pluginDirectoryUrl . "resources/assets/" . $path;
     }
 }

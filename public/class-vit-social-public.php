@@ -27,14 +27,25 @@ class Vit_Social_Public
         wp_enqueue_style($this->plugin_name . '_font_awesome', $this->helper->assets('vendor/font-awesome/font-awesome.min.css'), array(), '4.4.0', 'all');
     }
 
-    public function addIcons($content)
+    public function addIcons($content = null)
     {
-        if ($this->helper->doShow()) {
-            return $content . $this->getHtml();
+        if (null == $content) {
+            $content = get_the_content();
+        }
+        
+        return $content . $this->getHtml();
+    }
+    
+    /*public function addIconsGetContent($content = null)
+    {
+        if (null != $content && $this->helper->doShow()) {
+            if ($this->helper->doShow()) {
+                return $content . $this->getHtml();
+            }
         }
 
         return $content;
-    }
+    }*/
 
     /**
      * Return html for social buttons according to sorting
