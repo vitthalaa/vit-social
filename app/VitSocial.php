@@ -107,12 +107,12 @@ class VitSocial
         /**
          * The class responsible for defining all actions that occur in the admin posts/pages area.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . '/admin/class-vit-social-admin.php';
+        require_once plugin_dir_path(__FILE__) . '/admin/VitAdmin.php';
         
         /**
          * The class responsible for defining all actions that occur in the admin option page.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . '/admin/class-vit-social-admin-options.php';
+        require_once plugin_dir_path(__FILE__) . '/admin/VitOptions.php';
 
         /**
          * The class responsible for defining all actions that occur in the public-facing
@@ -131,21 +131,21 @@ class VitSocial
      * @access   private
      */
     private function defineAdminHooks() {
-        $pluginAdmin = new Vit_Social_Admin($this->getPluginName(), $this->getVersion(), $this->helper);
-        $pluginAdminOption = new Vit_Social_Admin_Options($this->getPluginName(), $this->helper);
+        $pluginAdmin = new VitAdmin($this->getPluginName(), $this->getVersion(), $this->helper);
+        $pluginAdminOption = new VitOptions($this->getPluginName(), $this->helper);
         
         //Add scripts only on post add/edit page
-        $this->loader->addAction('load-post.php', $pluginAdmin, 'enqueue_scripts');
-        $this->loader->addAction('load-post-new.php', $pluginAdmin, 'enqueue_scripts');
+        $this->loader->addAction('load-post.php', $pluginAdmin, 'enqueueScripts');
+        $this->loader->addAction('load-post-new.php', $pluginAdmin, 'enqueueScripts');
         
         //Add meta boxes and save its content on save post
-        $this->loader->addAction('add_meta_boxes', $pluginAdmin, 'add_meta_box');
+        $this->loader->addAction('add_meta_boxes', $pluginAdmin, 'addMetaBox');
         $this->loader->addAction('save_post', $pluginAdmin, 'saveMetaBox');
         
         //Add setting page
         $this->loader->addAction('admin_menu', $pluginAdminOption, 'addAdminMenu');
         $this->loader->addAction('admin_init', $pluginAdminOption, 'settingsApiInit');
-        $this->loader->addAction('admin_enqueue_scripts', $pluginAdminOption, 'enqueue_scripts');
+        $this->loader->addAction('admin_enqueue_scripts', $pluginAdminOption, 'enqueueScripts');
         
     }
 
@@ -159,8 +159,6 @@ class VitSocial
         $pluginPublic = new Vit_Social_Public($this->getPluginName(), $this->getVersion(), $this->helper);
         $this->loader->addAction('wp_enqueue_scripts', $pluginPublic, 'enqueueScripts');
         $this->loader->addFilter('the_content', $pluginPublic, 'addIcons'); // some themes may use the_content
-        //echo "<br>after the_content","<br>";
-        //$this->loader->addFilter('get_the_content', $pluginPublic, 'addIcons'); // some themes may use get_the_content
     }
 
     /**
