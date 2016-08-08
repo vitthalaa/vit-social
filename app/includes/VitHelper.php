@@ -11,19 +11,14 @@ class VitHelper
      */
     public function getSortedButtons($post, $isadmin = false)
     {
-        
-        //var_dump($post); exit;
         $buttons = $this->getShareButtons();
-        //echo "<pre>"; 
-        //print_r($buttons);
         $sortedButtons = array();
+        
         //Create array of buttons which allowed to show and kept order as key for sorting
         foreach ($buttons as $buttonId => $button) {
             $showField = "vit_show_" . $buttonId;
             $orderField = "vit_order_" . $buttonId;
-
-            $showValue = get_post_meta($post->ID, $showField, true);
-            
+            $showValue = get_post_meta($post->ID, $showField, true);            
             
             if ("" === $showValue || null === $showValue) {
                 $showValue = 1;
@@ -54,8 +49,6 @@ class VitHelper
             }
         }
         
-        //print_r($sortedButtons);
-
         ksort($sortedButtons, SORT_NUMERIC); //Sort array
 
         return $sortedButtons;
