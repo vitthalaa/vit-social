@@ -53,7 +53,7 @@ class VitSocial
         $this->pluginName = 'vit-social';
         $this->version = '1.0.0';
         $this->loadDependencies();
-
+        
         if (is_admin()) {
             $this->defineAdminHooks();
         } else {

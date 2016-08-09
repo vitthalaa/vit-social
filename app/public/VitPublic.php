@@ -32,7 +32,7 @@ class VitPublic
      */
     public function enqueueScripts()
     {
-        if (!$this->helper->canShowButtons()) {
+        if (!is_single(get_the_ID()) || !$this->helper->canShowButtons()) {
             return;
         }
 
@@ -55,7 +55,7 @@ class VitPublic
             $content = get_the_content();
         }
         
-        if ($this->helper->canShowButtons()) {
+        if (is_single(get_the_ID()) && $this->helper->canShowButtons()) {
             return $content . $this->getHtml();
         }
         
