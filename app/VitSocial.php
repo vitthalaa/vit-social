@@ -139,7 +139,7 @@ class VitSocial
     private function defineAdminHooks()
     {
         $pluginAdmin = new VitAdmin($this->getPluginName(), $this->getVersion(), $this->helper);
-        $pluginAdminOption = new VitOptions($this->getPluginName(), $this->helper);
+        $pluginAdminOption = new VitOptions($this->getPluginName(), $this->getVersion(), $this->helper);
 
         //Add scripts only on post add/edit page
         $this->loader->addAction('load-post.php', $pluginAdmin, 'enqueueScripts');

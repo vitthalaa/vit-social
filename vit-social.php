@@ -14,7 +14,7 @@ if (!defined('WPINC')) {
 }
 
 $GLOBALS['vitPluginDirectoryPath'] = plugin_dir_path(__FILE__);
-$GLOBALS['pluginDirectoryUrl'] = plugin_dir_url(__FILE__);
+$GLOBALS['vitPluginDirectoryUrl'] = plugin_dir_url(__FILE__);
 
 /**
  * The core plugin class that is used to define internationalization,

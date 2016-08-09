@@ -2,6 +2,7 @@
  * Add sortable event to social icon metabox in admin post page
  * @author: vitthal 
  */
+
 jQuery(function ($) {
     //Add jquery sortable event
     $("#sortable_social").sortable({

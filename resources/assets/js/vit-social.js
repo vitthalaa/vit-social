@@ -1,11 +1,7 @@
-jQuery('document').ready(function($) {
-    /*$('.vit-social-btn').click(function () {
-       var url = $(this).data('url');
-       var media = $(this).data('media');
-       
-       alert(media + " Clicked");
-    });*/
-});
+/* 
+ * Share popup on button click
+ * @author: vitthal 
+ */
 
 function sharePopup(btn)
 {

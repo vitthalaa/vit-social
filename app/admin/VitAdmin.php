@@ -34,13 +34,22 @@ class VitAdmin
     {
         add_action('admin_enqueue_scripts', array($this, 'enqueueScriptsStyles'));
     }
+
+    /**
+     * Register the stylesheets and javascripts for the admin area.
+     */
+    public function enqueueScriptsStyles()
+    {
+        wp_enqueue_style($this->pluginName . '_jquery_ui', $this->helper->assets('vendor/jquery-ui/jquery-ui.css'), array(), $this->version, 'all');
+        wp_enqueue_script($this->pluginName . '_admin_js', $this->helper->assets('js/vit-social-admin.js'), array('jquery'), $this->version, false);
+    }
     
     /**
      * Check for valid nonce and user permissions for editing content
      * Also check for autosave is done or not.
      * 
-     * @param int $postId
-     * @return boolean false in valid and have permissions
+     * @param   int     $postId
+     * @return  boolean false in valid and have permissions
      */
     private function isInvalidNoncePermissions($postId)
     {
@@ -67,15 +76,6 @@ class VitAdmin
 
         return false;
     }
-
-    /**
-     * Register the stylesheets and javascripts for the admin area.
-     */
-    public function enqueueScriptsStyles()
-    {
-        wp_enqueue_style($this->pluginName . '_jquery_ui', $this->helper->assets('vendor/jquery-ui/jquery-ui.css'), array(), $this->version, 'all');
-        wp_enqueue_script($this->pluginName . '_admin_js', $this->helper->assets('js/vit-social-admin.js'), array('jquery'), $this->version, false);
-    }
     
     /**
      * Add metabox to edit/add post page.
@@ -86,7 +86,7 @@ class VitAdmin
     public function addMetaBox($postType = null)
     {
         $postType = (null == $postType) ? get_post_type() : $postType;
-        if ($this->helper->doShow($postType)) {
+        if ($this->helper->canShowButtons($postType)) {
             add_meta_box(
                     'social_button_settings', __('Social Button Settings'), array($this, 'renderMetaBox'), $postType, 'side', 'high'
             );
@@ -96,14 +96,14 @@ class VitAdmin
     /**
      * Save buttons order and visibility
      * 
-     * @param int $postId
-     * @return mixed void|$postId void on success, post id if not valid nonce
+     * @param   int     $postId
+     * @return  mixed   void|$postId void on success, post id if not valid nonce
      */
     public function saveMetaBox($postId = null)
     {
         $postId = (null == $postId) ? get_the_ID() : $postId;
 
-        if (!$this->helper->doShow() || $this->isInvalidNoncePermissions($postId)) {
+        if (!$this->helper->canShowButtons() || $this->isInvalidNoncePermissions($postId)) {
             return $postId;
         }
 
@@ -127,7 +127,7 @@ class VitAdmin
     /**
      * Show metabox view on post edit page
      * 
-     * @param Object $post
+     * @param WP_Post $post Wordpress post object
      */
     public function renderMetaBox($post)
     {

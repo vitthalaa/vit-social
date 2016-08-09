@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of VitOptions
+ * Class handles setting option page operations
  *
  * @author vitthal
  */
@@ -9,18 +9,31 @@ class VitOptions
 {
 
     private $pluginName;
+    private $version;
     private $helper;
-
-    public function __construct($pluginName, $helper)
+    
+    /**
+     * Set the plugin name and the plugin version and helper object of plugin
+     * 
+     * @param string    $pluginName
+     * @param string    $version
+     * @param VitHelper $helper
+     */
+    public function __construct($pluginName, $version, $helper)
     {
         $this->pluginName = $pluginName;
+        $this->version = $version;
         $this->helper = $helper;
     }
     
+    /**
+     * Define action for adding scripts and styles
+     * @global string $vitPageHook Plugin setting page hook
+     */
     public function enqueueScripts()
     {
-        global $pageHook;
-        add_action('admin_print_styles-' . $pageHook, array($this, 'enqueueScriptsStyles'));
+        global $vitPageHook; //For plugin setting page only
+        add_action('admin_print_styles-' . $vitPageHook, array($this, 'enqueueScriptsStyles'));
     }
 
     /**
@@ -35,12 +48,54 @@ class VitOptions
         wp_enqueue_script($this->pluginName . '_admin_options_js', $this->helper->assets('js/vit-admin-options.js'), array('jquery'));
     }
     
+    /**
+     * Callback for action admin_menu. Add plugin setting page.
+     * @global string $vitPageHook Plugin setting page hook
+     */
     public function addAdminMenu()
     {
-        global $pageHook;
-        $pageHook = add_options_page('VIT Social', 'VIT Social', 'manage_options', 'vit-social', array($this, 'initSettingPage'));
+        global $vitPageHook;
+        $vitPageHook = add_options_page('VIT Social', 'VIT Social', 'manage_options', 'vit-social', array($this, 'initSettingPage'));
     }
+    
+    /**
+     * Callback function of option page. 
+     * Load view of setting page
+     */
+    public function initSettingPage()
+    {
+        $title = "VIT Social";
+        $buttonShape = get_option("vit_button_shape", 'flat');
+        $buttonZoom = get_option("vit_button_zoom", 'y');
+        $buttonRotate = get_option("vit_button_rotate", 'y');
+        $this->helper->loadView('optionsForm', 'admin', compact('title', 'buttonShape', 'buttonZoom', 'buttonRotate'));
+    }
+    
+    /**
+     * Callback function to init settings API
+     */
+    public function settingsApiInit()
+    {
+        $page = 'vit_social';
+        $settingsSection = 'vit_skins';
+        add_settings_section(
+            $settingsSection, __('Display', 'vit_social'), array($this, 'skinSectionDescription'), $page
+        );
+        $this->addSectionSettings($page, $settingsSection);
 
+        $settingsSection = 'vit_content';
+        add_settings_section(
+                $settingsSection, __('Contents', 'vit_social'), array($this, 'contentSectionDescription'), $page
+        );
+        $this->addSectionSettings($page, $settingsSection);
+    }
+    
+    /**
+     * Add specified setting section settings to specified page
+     * 
+     * @param string $page              Page id
+     * @param string $settingsSection   Section id
+     */
     private function addSectionSettings($page, $settingsSection)
     {
         switch ($settingsSection) {
@@ -61,7 +116,16 @@ class VitOptions
                 break;
         }
     }
-
+    
+    /**
+     * Add setting field to setting section of page
+     * 
+     * @param string $fieldName         Field name
+     * @param string $label             Label of field
+     * @param string $funtion           callback function to render field
+     * @param string $page              Page id
+     * @param string $settingsSection   Section id
+     */
     private function addSettingField($fieldName, $label, $funtion, $page, $settingsSection)
     {
         //register setting field
@@ -69,45 +133,29 @@ class VitOptions
 
         // Add field
         add_settings_field(
-                $fieldName, __($label, 'vit_social'), array($this, $funtion), $page, $settingsSection
+            $fieldName, __($label, 'vit_social'), array($this, $funtion), $page, $settingsSection
         );
     }
-
-    public function initSettingPage()
-    {
-        $title = "VIT Social";
-        $buttonShape = get_option("vit_button_shape", 'flat');
-        $buttonZoom = get_option("vit_button_zoom", 'y');
-        $buttonRotate = get_option("vit_button_rotate", 'y');
-        $this->helper->loadView('optionsForm', 'admin', compact('title', 'buttonShape', 'buttonZoom', 'buttonRotate'));
-    }
-
-    public function settingsApiInit()
-    {
-        $page = 'vit_social';
-        $settingsSection = 'vit_skins';
-        add_settings_section(
-                $settingsSection, __('Display', 'vit_social'), array($this, 'skinSectionDescription'), $page
-        );
-        $this->addSectionSettings($page, $settingsSection);
-
-        $settingsSection = 'vit_content';
-        add_settings_section(
-                $settingsSection, __('Contents', 'vit_social'), array($this, 'contentSectionDescription'), $page
-        );
-        $this->addSectionSettings($page, $settingsSection);
-    }
-
+    
+    /**
+     * Callback function for Skin section description
+     */
     public function skinSectionDescription()
     {
         //_e('Select your display preferences', 'vit_social');
     }
-
+    
+    /**
+     * Callback function for content section description
+     */
     public function contentSectionDescription()
     {
         //_e('Content for sharing', 'vit_social');
     }
-
+    
+    /**
+     * Render shape rodio fields
+     */
     public function buttonShapeField()
     {
         $buttonShape = get_option('vit_button_shape', 'flat');
@@ -115,33 +163,48 @@ class VitOptions
         echo '<label><input name="vit_button_shape" class="vit_button_shape" type="radio" value="rounded" ' . checked('rounded', $buttonShape, false) . ' /> ' . __('Rounded', 'vit_social') . '</label>';
         echo '<label><input name="vit_button_shape" class="vit_button_shape" type="radio" value="circle" ' . checked('circle', $buttonShape, false) . ' /> ' . __('Circle', 'vit_social') . '</label>';
     }
-
+    
+    /**
+     * Render zoom rodio fields
+     */
     public function buttonZoomField()
     {
         $buttonZoom = get_option('vit_button_zoom', 'y');
         echo '<label><input name="vit_button_zoom" class="vit_button_zoom" type="radio" value="y" ' . checked('y', $buttonZoom, false) . ' /> ' . __('Yes', 'vit_social') . '</label>';
         echo '<label><input name="vit_button_zoom" class="vit_button_zoom" type="radio" value="n" ' . checked('n', $buttonZoom, false) . ' /> ' . __('No', 'vit_social') . '</label>';
     }
-
+    
+    /**
+     * Render rotate rodio fields
+     */
     public function buttonRotateField()
     {
         $buttonRotate = get_option('vit_button_rotate', 'y');
         echo '<label><input name="vit_button_rotate" class="vit_button_rotate" type="radio" value="y" ' . checked('y', $buttonRotate, false) . ' /> ' . __('Yes', 'vit_social') . '</label>';
         echo '<label><input name="vit_button_rotate" class="vit_button_rotate" type="radio" value="n" ' . checked('n', $buttonRotate, false) . ' /> ' . __('No', 'vit_social') . '</label>';
     }
-
+    
+    /**
+     * Render width field
+     */
     public function buttonWidthField()
     {
         $buttonWidth = get_option('vit_button_width', 50);
         echo '<input type="number" size="50" name="vit_button_width" class="vit_button_width" value="' . $buttonWidth . '">';
     }
-
+    
+    /**
+     * Render size field
+     */
     public function buttonFontSizeField()
     {
         $fontSize = get_option('vit_button_font_size', 24);
         echo '<input type="number" name="vit_button_font_size" class="vit_button_font_size" value="' . $fontSize . '">';
     }
-
+    
+    /**
+     * Render Show on field
+     */
     public function buttonShowOnField()
     {
         $showOn = get_option('vit_show_on', 'both');
@@ -151,25 +214,37 @@ class VitOptions
         echo '<option ', ("post" == $showOn) ? 'selected="selected"' : '', ' value="post">' . __("Post", "vit_social") . '</option>';
         echo '</select>';
     }
-
+    
+    /**
+     * Render instagram link text field
+     */
     public function instagramLinkField()
     {
         $link = get_option('vit_instagram_link', 'https://instagram.com');
         echo '<input type="text" name="vit_instagram_link" class="vit_instagram_link" value="' . $link . '">';
     }
-
+    
+    /**
+     * Render email subject text field
+     */
     public function emailSubjectField()
     {
         $subject = get_option('vit_email_subject', '{site_title}:{post_title}');
         echo '<input type="text" name="vit_email_subject" class="vit_email_subject" value="' . $subject . '">';
     }
-
+    
+    /**
+     * Render email body text area
+     */
     public function emailBodyField()
     {
         $body = get_option('vit_email_body', 'I recommend this page:{post_title}. You can read it on {url}.');
         echo '<textarea rows="3" name="vit_email_body" class="vit_email_body">' . $body . '</textarea>';
     }
-
+    
+    /**
+     * Render whatsapp body text area
+     */
     public function whatsappTextField()
     {
         $body = get_option('vit_whatsapp_text', 'I recommend this page:{post_title}. You can read it on {url}.');

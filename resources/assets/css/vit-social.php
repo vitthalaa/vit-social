@@ -1,4 +1,9 @@
 <?php
+/* 
+ * Button css from admin configured options
+ * @author: vitthal 
+ */
+
 header('Content-type: text/css');
 
 $parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );

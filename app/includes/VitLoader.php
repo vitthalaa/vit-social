@@ -1,15 +1,9 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of Loader
+ * Plugin loader class for adding all hooks and run added hooks
  *
- * @author vitthalawate
+ * @author vitthal
  */
 class VitLoader
 {
@@ -33,7 +27,8 @@ class VitLoader
     /**
      * Initialize the collections used to maintain the actions and filters.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->actions = array();
         $this->filters = array();
     }
@@ -47,7 +42,8 @@ class VitLoader
      * @param      int      Optional    $priority         The priority at which the function should be fired.
      * @param      int      Optional    $accepted_args    The number of arguments that should be passed to the $callback.
      */
-    public function addAction($hook, $component, $callback, $priority = 10, $accepted_args = 1) {
+    public function addAction($hook, $component, $callback, $priority = 10, $accepted_args = 1)
+    {
         $this->actions = $this->add($this->actions, $hook, $component, $callback, $priority, $accepted_args);
     }
 
@@ -58,12 +54,12 @@ class VitLoader
      * @param      object               $component        A reference to the instance of the object on which the filter is defined.
      * @param      string               $callback         The name of the function definition on the $component.
      * @param      int      Optional    $priority         The priority at which the function should be fired.
-     * @param      int      Optional    $acceptedArgs    The number of arguments that should be passed to the $callback.
+     * @param      int      Optional    $acceptedArgs     The number of arguments that should be passed to the $callback.
      */
-    public function addFilter($hook, $component, $callback, $priority = 10, $acceptedArgs = 1) {
+    public function addFilter($hook, $component, $callback, $priority = 10, $acceptedArgs = 1)
+    {
         $this->filters = $this->add($this->filters, $hook, $component, $callback, $priority, $acceptedArgs);
     }
-    
 
     /**
      * A utility function that is used to register the actions and hooks into a single
@@ -78,7 +74,8 @@ class VitLoader
      * @param      int      Optional    $acceptedArgs    The number of arguments that should be passed to the $callback.
      * @return   array                                   The collection of actions and filters registered with WordPress.
      */
-    private function add($hooks, $hook, $component, $callback, $priority, $acceptedArgs) {
+    private function add($hooks, $hook, $component, $callback, $priority, $acceptedArgs)
+    {
         $hooks[] = array(
             'hook' => $hook,
             'component' => $component,
@@ -91,9 +88,9 @@ class VitLoader
 
     /**
      * Register the filters and actions with WordPress.
-     * 
      */
-    public function run() {
+    public function run()
+    {
         foreach ($this->filters as $hook) {
             add_filter($hook['hook'], array($hook['component'], $hook['callback']), $hook['priority'], $hook['accepted_args']);
         }
@@ -101,4 +98,5 @@ class VitLoader
             add_action($hook['hook'], array($hook['component'], $hook['callback']), $hook['priority'], $hook['accepted_args']);
         }
     }
+
 }
