@@ -49,7 +49,7 @@ Installation of Social Media
 * You cannot share media on Instagram using the API. See the docs
 
 = Can I modify plugin? =
-* Of course you can and your contributions are always welcome here to git. 
+* Of course you can and your contributions are always welcome <a href="https://github.com/vitthalaa/vit-social" target="_blank">here to git</a>. 
 
 == Screenshots ==
 1. Plugin setting page
@@ -59,3 +59,6 @@ Installation of Social Media
 == Changelog ==
 = 1.0.0 =
 * Initial commit.
+
+== Upgrade Notice ==
+Latest version is 1.0.0
