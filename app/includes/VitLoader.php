@@ -81,7 +81,7 @@ class VitLoader
             'component' => $component,
             'callback' => $callback,
             'priority' => $priority,
-            'accepted_args' => $accepted_args
+            'accepted_args' => $acceptedArgs
         );
         return $hooks;
     }

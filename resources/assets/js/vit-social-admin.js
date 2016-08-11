@@ -22,7 +22,9 @@ jQuery(function ($) {
     
     //Enable/disable on checkbox change
     $('.socialShowField').change(function () {
-        if ($(this).prop('checked') == true) {
+        //if ($(this).prop('checked') == true) {
+        console.log($(this).attr("checked"));
+        if ($(this).attr("checked")) {    
             $(this).parent('li').removeClass('ui-state-disabled');
         } else {
             $(this).parent('li').addClass('ui-state-disabled');

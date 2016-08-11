@@ -1,7 +1,7 @@
 === VIT Social ===
 Contributors: vitthalaa
 Tags: social, share, post wise, custom share, custom social, post wise social, share buttons, sort social, sort share, post share, page share, social links, social media, post wise share, custom share buttons, sort order share, social media buttons, sort share buttons, social media icons, social media widget, social share, social sharing, social widget, social media, floating buttons, facebook, twitter, social bar, linkedin, whatsapp, mail, google plus
-Requires at least: 3.8
+Requires at least: 3.0.5
 Tested up to: 4.5.3
 Stable tag: trunk
 License: GPLv2 or later
@@ -48,7 +48,7 @@ Installation of Social Media
 = Why Instagram button is link to profile but not the share button? =
 * You cannot share media on Instagram using the API. See the docs
 
-= Can I modify plugin =
+= Can I modify plugin? =
 * Of course you can and your contributions are always welcome here to git. 
 
 == Screenshots ==

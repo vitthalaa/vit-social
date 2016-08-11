@@ -40,7 +40,6 @@ class VitAdmin
      */
     public function enqueueScriptsStyles()
     {
-        wp_enqueue_style($this->pluginName . '_jquery_ui', $this->helper->assets('vendor/jquery-ui/jquery-ui.css'), array(), $this->version, 'all');
         wp_enqueue_script($this->pluginName . '_admin_js', $this->helper->assets('js/vit-social-admin.js'), array('jquery'), $this->version, false);
     }
     
