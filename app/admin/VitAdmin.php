@@ -1,4 +1,8 @@
 <?php
+// If this file is called directly, abort.
+if (!defined('ABSPATH')) {
+    exit;
+}
 
 /**
  * Class responsible for configure share button on edit/create post page.
@@ -54,7 +58,7 @@ class VitAdmin
     {
         // Check if our nonce is set and nonce is valid.
         if (!isset($_POST['vit_inner_custom_box_nonce']) ||
-                !wp_verify_nonce($_POST['vit_inner_custom_box_nonce'], 'vit_inner_custom_box')) {
+                !wp_verify_nonce(sanitize_text_field($_POST['vit_inner_custom_box_nonce']), 'vit_inner_custom_box')) {
             return true;
         }
 
@@ -63,13 +67,14 @@ class VitAdmin
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return $postId;
         }
-
+        
+        $postType = sanitize_text_field($_POST['post_type']);
         // Check the user's permissions.
-        if ('page' == $_POST['post_type'] && !current_user_can('edit_page', $postId)) {
+        if ('page' == $postType && !current_user_can('edit_page', $postId)) {
             return true;
         }
 
-        if ('page' != $_POST['post_type'] && !current_user_can('edit_post', $postId)) {
+        if ('page' != $postType && !current_user_can('edit_post', $postId)) {
             return true;
         }
 
@@ -112,8 +117,8 @@ class VitAdmin
             $showField = "vit_show_" . $buttonId;
             $orderField = "vit_order_" . $buttonId;
 
-            $showValue = (isset($_POST[$showField])) ? 1 : 0;
-            $orderValue = sanitize_text_field($_POST[$orderField]);
+            $showValue = (isset($_POST[$showField])) ? 1 : 0; //Either 1 or 0 only
+            $orderValue = intval(sanitize_text_field($_POST[$orderField]));
 
             // Update the meta field.
             update_post_meta($postId, $showField, $showValue);

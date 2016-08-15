@@ -1,7 +1,12 @@
 <?php
-$buttonShape = get_option("vit_button_shape", 'flat');
-$buttonZoom = get_option("vit_button_zoom", 'y');
-$buttonRotate = get_option("vit_button_rotate", 'y');
+// If this file is called directly, abort.
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+$buttonShape = esc_attr(get_option("vit_button_shape", 'flat'));
+$buttonZoom = esc_attr(get_option("vit_button_zoom", 'y'));
+$buttonRotate = esc_attr(get_option("vit_button_rotate", 'y'));
 ?>
 <ul class="social-icons <?php
 echo "icon-" . $buttonShape;
@@ -11,7 +16,6 @@ echo ("y" == $buttonRotate) ? ' icon-rotate ' : '';
 <?php
 foreach ($sortedButtons as $button) :
     echo '<li>';
-    $image = '<img title="' . $button['name'] . '" src="' . plugins_url('resources/assets/images/' . $button['image'], __DIR__) . '" alt="' . $button['name'] . '" />';
     switch ($button['name']) :
         case 'Twitter': ?>
                 <a onclick="return sharePopup(this)" class="vit-social-btn" href="javascript:" data-media="<?php echo $button['slug'] ?>"

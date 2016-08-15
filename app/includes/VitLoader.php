@@ -1,5 +1,10 @@
 <?php
 
+// If this file is called directly, abort.
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Plugin loader class for adding all hooks and run added hooks
  *

@@ -1,5 +1,10 @@
 <?php
 
+// If this file is called directly, abort.
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Class responsible for loading required scripts and adding icons to post/page
  *
@@ -72,7 +77,7 @@ class VitPublic
     {
         global $post;
 
-        $sharePermalink = get_permalink($post->ID); //Post link
+        $sharePermalink = esc_url(get_permalink($post->ID)); //Post link
         $shareTitle = $this->helper->getShareTitle(); //Post title
         $emailSubject = $this->helper->getEmailSubject($shareTitle);
         $emailBody = $this->helper->getEmailBody($shareTitle, $sharePermalink);

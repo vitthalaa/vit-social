@@ -1,3 +1,10 @@
+<?php 
+// If this file is called directly, abort.
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+?>
 <div class="vit-options-container">
 
 	<h1><?php echo $title; ?></h1>

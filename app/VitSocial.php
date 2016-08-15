@@ -1,5 +1,10 @@
 <?php
 
+// If this file is called directly, abort.
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Main plugin class for loading dependencies, define hooks and run plugin
  *

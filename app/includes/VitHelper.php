@@ -1,4 +1,8 @@
 <?php
+// If this file is called directly, abort.
+if (!defined('ABSPATH')) {
+    exit;
+}
 
 /**
  * Helper class for some common and basic oprations in other classes
@@ -24,7 +28,7 @@ class VitHelper
         foreach ($buttons as $buttonId => $button) {
             $showField = "vit_show_" . $buttonId;
             $orderField = "vit_order_" . $buttonId;
-            $showValue = get_post_meta($post->ID, $showField, true);            
+            $showValue = intval(esc_attr(get_post_meta($post->ID, $showField, true)));            
             
             if ("" === $showValue || null === $showValue) {
                 $showValue = 1;
@@ -34,7 +38,7 @@ class VitHelper
                 continue;
             }
            
-            $orderValue = get_post_meta($post->ID, $orderField, true);
+            $orderValue = intval(esc_attr(get_post_meta($post->ID, $orderField, true)));
             if ("" === $orderValue || null === $orderValue) {
                 $orderValue = $button['default_order'];
             }
@@ -50,7 +54,7 @@ class VitHelper
 
                 $html = '<li class="ui-state-default' . $disabled . '">';
                 $html .= $button['name'] . '  <input type="checkbox" id="' . $showField . '" name="' . $showField . '" ' . $checked . ' class="socialShowField" value="1">';
-                $html .= '<input type="hidden" id="' . $orderField . '" name="' . $orderField . '"  value="' . esc_attr($orderValue) . '" class="socialOrderField"/>';
+                $html .= '<input type="hidden" id="' . $orderField . '" name="' . $orderField . '"  value="' . $orderValue . '" class="socialOrderField"/>';
                 $html .= '</li>';
                 $sortedButtons[$orderValue] = $html;
             }
@@ -163,7 +167,8 @@ class VitHelper
      */
     public function getEmailSubject($title)
     {
-        $subject = str_replace("{site_title}", htmlspecialchars(get_bloginfo('name')), get_option('vit_email_subject', '{site_title}:{post_title}'));
+        $optionEmailSubject = esc_html(get_option('vit_email_subject', '{site_title}:{post_title}'));
+        $subject = str_replace("{site_title}", htmlspecialchars(get_bloginfo('name')), $optionEmailSubject);
 
         return str_replace("{post_title}", $title, $subject);
     }
@@ -177,9 +182,10 @@ class VitHelper
      */
     public function getEmailBody($title, $link)
     {
-        $body = str_replace("{post_title}", $title, get_option('vit_email_body', 'I recommend this page:{post_title}. You can read it on {url}.'));
+        $optionEmailBody = esc_html(get_option('vit_email_body', 'I recommend this page:{post_title}. You can read it on {url}.'));
+        $body = str_replace("{post_title}", $title, $optionEmailBody);
 
-        return str_replace("{url}", $link, $body);
+        return str_replace("{url}", esc_url($link), $body);
     }
     
     /**
@@ -191,9 +197,10 @@ class VitHelper
      */
     public function getWhatsAppText($title, $link)
     {
-        $body = str_replace("{post_title}", $title, get_option('vit_whatsapp_text', 'I recommend this page:{post_title}. You can read it on {url}.'));
+        $optionWhatsAppText = esc_html(get_option('vit_whatsapp_text', 'I recommend this page:{post_title}. You can read it on {url}.'));
+        $body = str_replace("{post_title}", $title, $optionWhatsAppText);
 
-        return str_replace("{url}", $link, $body);
+        return str_replace("{url}", esc_url($link), $body);
     }
     
     /**
@@ -205,7 +212,7 @@ class VitHelper
     public function canShowButtons($postType = null)
     {
         $postType = empty($postType) ?: get_post_type();
-        $showOn = get_option("vit_show_on", "both");
+        $showOn = esc_attr(get_option("vit_show_on", "both"));
 
         return ($postType == $showOn || "both" == $showOn);
     }
