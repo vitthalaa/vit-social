@@ -5,6 +5,7 @@
  * Description: VIT Social share plugin provides you customization, post wise share buttons with sort order for post or page sharing option.
  * Version: 1.0.0
  * Author: Vitthal Awate 
+ * Author URI: https://www.linkedin.com/in/phpvitthal
  * License: GPL2
  */
 

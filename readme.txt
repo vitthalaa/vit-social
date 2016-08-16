@@ -34,7 +34,7 @@ This plugin provides you with following 6 social networks with ease:
 == Installation ==
 Installation of Social Media
 
-1. Upload \'VIT Social\' to the \'/wp-content/plugins/\' directory
+1. Upload 'VIT Social' to the '/wp-content/plugins/' directory
 2. Activate the plugin through the \'Plugins\' menu in WordPress
 3. Enjoy!
 
